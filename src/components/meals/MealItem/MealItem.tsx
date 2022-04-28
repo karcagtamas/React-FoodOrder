@@ -1,5 +1,6 @@
 import { Component, ReactNode } from "react";
 import styles from "./MealItem.module.css";
+import MealItemForm from "./MealItemForm";
 
 type Props = {
   name: string;
@@ -18,7 +19,9 @@ export default class MealItem extends Component<Props> {
           <div className={styles.description}>{this.props.description}</div>
           <div className={styles.price}>{price}</div>
         </div>
-        <div></div>
+        <div>
+          <MealItemForm></MealItemForm>
+        </div>
       </li>
     );
   }

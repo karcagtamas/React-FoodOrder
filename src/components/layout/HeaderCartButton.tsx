@@ -2,10 +2,14 @@ import { Component, ReactNode } from "react";
 import CartIcon from "../cart/CartIcon";
 import styles from "./HeaderCartButton.module.css";
 
-export default class HeaderCartButton extends Component {
+type Props = {
+  onClick: () => void;
+};
+
+export default class HeaderCartButton extends Component<Props> {
   render(): ReactNode {
     return (
-      <button className={styles.button}>
+      <button className={styles.button} onClick={this.props.onClick}>
         <span className={styles.icon}>
           <CartIcon />
         </span>

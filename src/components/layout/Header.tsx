@@ -3,13 +3,17 @@ import styles from "./Header.module.css";
 import mealsImage from "../../assets/meals.jpg";
 import HeaderCartButton from "./HeaderCartButton";
 
-export default class Header extends Component {
+type Props = {
+  onShowCart: () => void;
+};
+
+export default class Header extends Component<Props> {
   render(): ReactNode {
     return (
       <Fragment>
         <header className={styles.header}>
           <h1>ReactMeals</h1>
-          <HeaderCartButton />
+          <HeaderCartButton onClick={this.props.onShowCart} />
         </header>
         <div className={styles["main-image"]}>
           <img src={mealsImage} alt="Meals" />
