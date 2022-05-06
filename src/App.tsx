@@ -1,7 +1,8 @@
-import { Component, Fragment, ReactNode } from "react";
+import { Component, ReactNode } from "react";
 import Cart from "./components/cart/Cart";
 import Header from "./components/layout/Header";
 import Meals from "./components/meals/Meals";
+import CartProvider from "./store/CartProvider";
 
 type State = {
   cart: boolean;
@@ -12,13 +13,13 @@ class App extends Component<{}, State> {
 
   render(): ReactNode {
     return (
-      <Fragment>
+      <CartProvider>
         {this.state.cart && <Cart onClose={this.hideCartHandler} />}
         <Header onShowCart={this.showCartHandler} />
         <main>
           <Meals />
         </main>
-      </Fragment>
+      </CartProvider>
     );
   }
 
