@@ -1,17 +1,17 @@
 import React from "react";
-import { CartItem } from "../models/cart.model";
+import { CartItemModel } from "../models/cart.model";
 
 export interface IContext {
-  items: CartItem[];
+  items: CartItemModel[];
   total: number;
-  addItem: (item: CartItem) => void;
+  addItem: (item: CartItemModel) => void;
   removeItem: (id: string) => void;
 }
 
 const CartContext = React.createContext({
   items: [],
   total: 0,
-  addItem: (item: CartItem) => {},
+  addItem: (item: CartItemModel) => {},
   removeItem: (id: string) => {},
 } as IContext);
 
