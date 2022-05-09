@@ -1,4 +1,3 @@
-import { time } from "console";
 import { useContext, useEffect, useState } from "react";
 import CartContext from "../../store/cart-context";
 import CartIcon from "../cart/CartIcon";

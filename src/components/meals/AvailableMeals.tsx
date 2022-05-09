@@ -1,48 +1,64 @@
-import { Component, ReactNode } from "react";
+import { useEffect, useState } from "react";
+import { MealModel } from "../../models/meal.model";
 import Card from "../ui/Card";
 import styles from "./AvailableMeals.module.css";
 import MealItem from "./MealItem/MealItem";
 
-const DUMMY_MEALS = [
-  {
-    id: "m1",
-    name: "Sushi",
-    description: "Finest fish and veggies",
-    price: 22.99,
-  },
-  {
-    id: "m2",
-    name: "Schnitzel",
-    description: "A german specialty!",
-    price: 16.5,
-  },
-  {
-    id: "m3",
-    name: "Barbecue Burger",
-    description: "American, raw, meaty",
-    price: 12.99,
-  },
-  {
-    id: "m4",
-    name: "Green Bowl",
-    description: "Healthy...and green...",
-    price: 18.99,
-  },
-];
+const AvailableMeals = () => {
+  const [meals, setMeals] = useState<MealModel[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | undefined>();
 
-export default class AvailableMeals extends Component {
-  render(): ReactNode {
+  useEffect(() => {
+    const fetchMeals = async () => {
+      const res = await fetch(
+        "https://react-demo-4191e-default-rtdb.europe-west1.firebasedatabase.app/meals.json"
+      );
+
+      if (!res.ok) {
+        throw new Error("Something went wrong!");
+      }
+
+      const data = await res.json();
+
+      const loadedMeals: MealModel[] = [];
+      for (const key in data) {
+        loadedMeals.push({
+          id: key,
+          description: data[key].description,
+          name: data[key].name,
+          price: data[key].price,
+        });
+      }
+
+      setMeals(loadedMeals);
+      setIsLoading(false);
+    };
+
+    fetchMeals().catch((error: Error) => {
+      setIsLoading(false);
+      setError(error.message);
+    });
+  }, []);
+
+  if (isLoading) {
     return (
-      <section className={styles.meals}>
-        <Card>
-          <ul>{this.meals()}</ul>
-        </Card>
+      <section className={styles["meals-loading"]}>
+        <p>Loading...</p>
       </section>
     );
   }
 
-  meals(): JSX.Element[] {
-    return DUMMY_MEALS.map((m) => (
+  if (error) {
+    return (
+      <section className={styles["meals-error"]}>
+        <p>{error}</p>
+      </section>
+    );
+  }
+
+  const generate = (): JSX.Element[] => {
+    return meals.map((m: MealModel) => (
       <MealItem
         key={m.id}
         id={m.id}
@@ -51,5 +67,15 @@ export default class AvailableMeals extends Component {
         price={m.price}
       ></MealItem>
     ));
-  }
-}
+  };
+
+  return (
+    <section className={styles.meals}>
+      <Card>
+        <ul>{generate()}</ul>
+      </Card>
+    </section>
+  );
+};
+
+export default AvailableMeals;

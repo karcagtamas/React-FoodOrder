@@ -6,6 +6,7 @@ export interface IContext {
   total: number;
   addItem: (item: CartItemModel) => void;
   removeItem: (id: string) => void;
+  clear: () => void;
 }
 
 const CartContext = React.createContext({
@@ -13,6 +14,7 @@ const CartContext = React.createContext({
   total: 0,
   addItem: (item: CartItemModel) => {},
   removeItem: (id: string) => {},
+  clear: () => {},
 } as IContext);
 
 export default CartContext;
